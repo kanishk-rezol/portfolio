@@ -122,19 +122,10 @@ export default function App() {
     <section id="projects">
       <main className="min-h-screen py-16 px-6 ">
         {/* Interactive Heading with animation */}
-        <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center mb-14 text-blue-600"
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          whileHover={{
-            scale: [1.1, 1.2, 1.1],  // Scale up and down on hover for smooth effect
-            color: "#E58E00",  // Change color on hover
-            textShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)", // Add shadow on hover
-            transition: { type: "spring", stiffness: 300, damping: 20 }
-          }}
-        >
+        <h1
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-center mb-14 text-blue-600"    >
           Projects
-        </motion.h1>
+        </h1>
         <div className="mb-18">
           <CatWalker />
         </div>
