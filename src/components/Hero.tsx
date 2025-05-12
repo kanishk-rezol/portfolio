@@ -27,7 +27,7 @@ type GradientBlob = {
 
 function Hero() {
   const [index, setIndex] = useState(0);
-  const { ref, inView } = useInView({
+  const { ref} = useInView({
     triggerOnce: false,
     threshold: 0.5,
   });

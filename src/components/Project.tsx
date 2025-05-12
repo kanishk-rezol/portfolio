@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, memo } from "react";
+import { useRef, useState, memo } from "react";
 import { motion } from "framer-motion";
 import CatWalker from "./modules/CatWalker";
 

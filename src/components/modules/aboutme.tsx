@@ -5,9 +5,7 @@ import {
   FaMobileAlt,
   FaDatabase,
   FaPaintBrush,
-  FaVideo,
-  FaJs,
-  FaCss3Alt
+  FaVideo
 } from 'react-icons/fa';
 import { 
   SiTypescript, 
