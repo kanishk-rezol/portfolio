@@ -15,46 +15,152 @@ const jobTitles = [
 
 const name = "Hi, I'm Kanishk";
 
+type GradientBlob = {
+  id: number;
+  position: {
+    top: string;
+    left: string;
+  };
+  colorStart: string;
+  direction: string;
+};
+
 function Hero() {
   const [index, setIndex] = useState(0);
   const { ref, inView } = useInView({
-    triggerOnce: false, 
-    threshold: 0.5, 
+    triggerOnce: false,
+    threshold: 0.5,
   });
 
   useEffect(() => {
-    if (inView) {
-      const timer = setInterval(() => {
-        setIndex((prev) => (prev + 1) % jobTitles.length);
-      }, 2500);
-      return () => clearInterval(timer);
-    }
-  }, [inView]);
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % jobTitles.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const gradients = [
+    "linear-gradient(to right, #FF6B6B, #FFD93D)",
+    "linear-gradient(to right, #6BCB77, #4D96FF)",
+    "linear-gradient(to right, #FF6B81, #845EC2)",
+    "linear-gradient(to right, #FFC75F, #F9F871)",
+    "linear-gradient(to right, #00C9A7, #845EC2)",
+    "linear-gradient(to right, #F14668, #F0C987)"
+  ];
+
+  const directions = [
+    "top", "top right", "right", "bottom right",
+    "bottom", "bottom left", "left", "top left"
+  ];
+
+  const [floatingGradients, setFloatingGradients] = useState<GradientBlob[]>([]);
+
+  useEffect(() => {
+    const blobs: GradientBlob[] = Array.from({ length: 10 }).map((_, i) => ({
+      id: i,
+      position: {
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`
+      },
+      colorStart: gradients[Math.floor(Math.random() * gradients.length)],
+      direction: directions[Math.floor(Math.random() * directions.length)],
+    }));
+    setFloatingGradients(blobs);
+
+    // Add scroll event listener
+    const handleScroll = (e: WheelEvent) => {
+      const currentScroll = window.scrollY;
+      const heroSection = document.getElementById('home');
+      const heroHeight = heroSection?.offsetHeight || 0;
+      
+      // If we're at the top of the page and scrolling down
+      if (currentScroll === 0 && e.deltaY > 0) {
+        e.preventDefault();
+        window.scrollTo({
+          top: heroHeight,
+          behavior: 'smooth'
+        });
+      }
+      // If we're at the top of the next section and scrolling up
+      else if (currentScroll > 0 && currentScroll < heroHeight && e.deltaY < 0) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    window.addEventListener('wheel', handleScroll, { passive: false });
+    return () => window.removeEventListener('wheel', handleScroll);
+  }, []);
+
+  const getRandomPosition = () => ({
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+  });
+
+  const getRandomGradient = () => gradients[Math.floor(Math.random() * gradients.length)];
 
   return (
     <section
       id="home"
-      ref={ref} 
+      ref={ref}
       className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-gradient-radial from-white via-blue-50 to-white"
     >
-      <motion.div
-        className="absolute w-10 h-10 bg-yellow-400 rounded-full blur-3xl opacity-50 animate-float1"
-        style={{ left: '10%', top: '20%' }}
-        key={inView ? 'active' : 'inactive'} 
-      />
-      <motion.div
-        className="absolute w-8 h-8 bg-green-400 rounded-full blur-2xl opacity-40 animate-float2"
-        style={{ right: '15%', top: '30%' }}
-        key={inView ? 'active' : 'inactive'}
-      />
-      <motion.div
-        className="absolute w-6 h-6 bg-pink-400 rounded-full blur-xl opacity-60 animate-float3"
-        style={{ left: '30%', bottom: '10%' }}
-        key={inView ? 'active' : 'inactive'}
-      />
-      <div className="absolute w-[30rem] h-[30rem] bg-transparent opacity-40 rounded-full blur-3xl top-[-10%] left-[-10%] animate-blob1" />
-      <div className="absolute w-[25rem] h-[25rem] bg-transparent opacity-30 rounded-full blur-3xl bottom-[10%] right-[5%] animate-blob2" />
-      <div className="absolute w-[20rem] h-[20rem] bg-transparent opacity-30 rounded-full blur-2xl bottom-[20%] left-[10%] animate-blob3" />
+      {/* ✅ Gradient Blobs */}
+      {floatingGradients.map((item) => (
+        <motion.div
+          key={item.id}
+          className="absolute w-[400px] h-[400px] rounded-full pointer-events-none mix-blend-multiply filter blur-3xl opacity-20"
+          style={{
+            top: item.position.top,
+            left: item.position.left,
+            backgroundImage: item.colorStart.replace("to right", `to ${item.direction}`),
+          }}
+          animate={{
+            opacity: [0, 0.25, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: item.id * 1.5,
+          }}
+        />
+      ))}
+
+      {/* 🔵 Circles (unchanged) */}
+      {[...Array(6)].map((_, idx) => (
+        <motion.div
+          key={idx}
+          className="absolute w-32 h-32 rounded-full opacity-20"
+          style={{
+            left: getRandomPosition().left,
+            top: getRandomPosition().top,
+            background: getRandomGradient(),
+          }}
+          animate={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            background: getRandomGradient(),
+          }}
+          whileHover={{
+            left: `calc(${Math.random() * 100}% + 15%)`,
+            top: `calc(${Math.random() * 100}% + 15%)`,
+            opacity: 0.05,
+            transition: { type: "spring", stiffness: 150, damping: 25 }
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 8,
+            ease: "easeInOut",
+            repeatDelay: 0
+          }}
+        />
+      ))}
+
+      {/* 👋 Hero Text */}
       <motion.div
         whileHover={{
           scale: 1.05,
@@ -105,6 +211,8 @@ function Hero() {
           <span className="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all group-hover:w-full duration-300 z-0"></span>
         </motion.button>
       </motion.div>
+
+      {/* ↓ Arrow */}
       <motion.div
         className="absolute bottom-6 animate-bounce text-blue-400 text-2xl z-10"
         whileHover={{ scale: 1.1, rotate: 45 }}

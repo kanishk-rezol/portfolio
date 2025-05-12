@@ -1,5 +1,23 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { 
+  FaReact, 
+  FaMobileAlt,
+  FaDatabase,
+  FaPaintBrush,
+  FaVideo,
+  FaJs,
+  FaCss3Alt
+} from 'react-icons/fa';
+import { 
+  SiTypescript, 
+  SiTailwindcss,
+  SiUnrealengine,
+  SiAdobephotoshop,
+  SiAdobeillustrator,
+  SiCanva
+} from 'react-icons/si';
+import { BiCodeAlt } from 'react-icons/bi';
 
 const AboutMeSection = () => {
   const [isInView, setIsInView] = useState(false);
@@ -20,18 +38,18 @@ const AboutMeSection = () => {
   }, []);
 
   const skills = [
-    "React",
-    "TypeScript",
-    "Tailwind CSS",
-    "React Native",
-    "PowerBi",
-    "UnReal",
-    "Adobe Illustrator",
-    "Adobe Photoshop",
-    "Canva",
-    "Spline",
-    "CapCut",
-    "SQL",
+    { name: "React", icon: <FaReact className="text-[#61DAFB]" size={24} /> },
+    { name: "TypeScript", icon: <SiTypescript className="text-[#3178C6]" size={24} /> },
+    { name: "Tailwind CSS", icon: <SiTailwindcss className="text-[#06B6D4]" size={24} /> },
+    { name: "React Native", icon: <FaMobileAlt className="text-[#61DAFB]" size={24} /> },
+    { name: "PowerBi", icon: <FaDatabase className="text-[#F2C811]" size={24} /> },
+    { name: "UnReal", icon: <SiUnrealengine className="text-[#0E1C3F]" size={24} /> },
+    { name: "Adobe Illustrator", icon: <SiAdobeillustrator className="text-[#FF9A00]" size={24} /> },
+    { name: "Adobe Photoshop", icon: <SiAdobephotoshop className="text-[#31A8FF]" size={24} /> },
+    { name: "Canva", icon: <SiCanva className="text-[#00C4CC]" size={24} /> },
+    { name: "Spline", icon: <FaPaintBrush className="text-[#6E56CF]" size={24} /> },
+    { name: "CapCut", icon: <FaVideo className="text-[#FF0050]" size={24} /> },
+    { name: "SQL", icon: <BiCodeAlt className="text-[#00758F]" size={24} /> },
   ];
 
   return (
@@ -75,12 +93,12 @@ const AboutMeSection = () => {
         >
           {skills.map((skill, index) => (
             <motion.div
-              key={skill}
-              className="p-4 bg-gray-50 border border-gray-300 rounded-xl shadow-lg cursor-pointer transform transition-all hover:scale-105 hover:shadow-xl"
+              key={skill.name}
+              className="p-4 bg-transparent cursor-pointer transform transition-all hover:scale-105 hover:shadow-xl flex flex-col items-center justify-center gap-2"
               whileHover={{
                 scale: 1.1,
                 boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
-                color: "#2563EB", // Blue hover effect
+                color: "#2563EB",
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
@@ -91,7 +109,12 @@ const AboutMeSection = () => {
                 stiffness: 300,
               }}
             >
-              <motion.span className="text-gray-800 text-sm font-semibold">{skill}</motion.span>
+              <div className="text-2xl">
+                {skill.icon}
+              </div>
+              <motion.span className="text-gray-800 text-sm font-semibold text-center">
+                {skill.name}
+              </motion.span>
             </motion.div>
           ))}
         </motion.div>

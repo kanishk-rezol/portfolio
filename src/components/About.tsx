@@ -112,7 +112,7 @@ function About() {
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center justify-center bg-white p-8 overflow-auto" id="about">
-   <div className="hidden lg:block absolute left-5 top-[1100px] transform -translate-y-1/2 z-10">
+   <div className="hidden lg:block absolute left-5 top-[1200px] transform -translate-y-1/2 z-10">
     <TorchReveal />
   </div>
   <div className="ml-auto">
