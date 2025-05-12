@@ -65,8 +65,7 @@ function Header() {
           </button>
         </div>
 
-        {/* Navigation links for desktop */}
-        <nav className="space-x-8 flex items-center hidden lg:flex">
+        <nav className="space-x-8  items-center hidden lg:flex">
           <a
             href="#home"
             className="relative text-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105"
