@@ -18,7 +18,6 @@ import {
   SiCanva
 } from 'react-icons/si';
 import { BiCodeAlt } from 'react-icons/bi';
-
 const AboutMeSection = () => {
   const [isInView, setIsInView] = useState(false);
 
