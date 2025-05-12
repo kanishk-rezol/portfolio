@@ -18,8 +18,8 @@ const name = "Hi, I'm Kanishk";
 function Hero() {
   const [index, setIndex] = useState(0);
   const { ref, inView } = useInView({
-    triggerOnce: false, // ensures that the section is checked every time it comes in view
-    threshold: 0.5, // triggers when 50% of the section is in view
+    triggerOnce: false, 
+    threshold: 0.5, 
   });
 
   useEffect(() => {
@@ -34,14 +34,13 @@ function Hero() {
   return (
     <section
       id="home"
-      ref={ref} // This will observe the section
+      ref={ref} 
       className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-gradient-radial from-white via-blue-50 to-white"
     >
-      {/* Floating Dots Animation */}
       <motion.div
         className="absolute w-10 h-10 bg-yellow-400 rounded-full blur-3xl opacity-50 animate-float1"
         style={{ left: '10%', top: '20%' }}
-        key={inView ? 'active' : 'inactive'} // key ensures re-animation
+        key={inView ? 'active' : 'inactive'} 
       />
       <motion.div
         className="absolute w-8 h-8 bg-green-400 rounded-full blur-2xl opacity-40 animate-float2"
@@ -53,13 +52,9 @@ function Hero() {
         style={{ left: '30%', bottom: '10%' }}
         key={inView ? 'active' : 'inactive'}
       />
-
-      {/* Blobs */}
       <div className="absolute w-[30rem] h-[30rem] bg-transparent opacity-40 rounded-full blur-3xl top-[-10%] left-[-10%] animate-blob1" />
       <div className="absolute w-[25rem] h-[25rem] bg-transparent opacity-30 rounded-full blur-3xl bottom-[10%] right-[5%] animate-blob2" />
       <div className="absolute w-[20rem] h-[20rem] bg-transparent opacity-30 rounded-full blur-2xl bottom-[20%] left-[10%] animate-blob3" />
-
-      {/* Main Content */}
       <motion.div
         whileHover={{
           scale: 1.05,
@@ -69,7 +64,6 @@ function Hero() {
         }}
         className="text-center px-4 z-10"
       >
-        {/* Glowing name ring */}
         <div className="relative flex justify-center mb-4">
           <div className="absolute w-64 h-64 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-20 animate-pulse z-0" />
           <div className="z-10 text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
@@ -86,8 +80,6 @@ function Hero() {
             ))}
           </div>
         </div>
-
-        {/* Interactive Job Title with Hover Effect */}
         <motion.p
           key={index}
           initial={{ opacity: 0, y: 10 }}
@@ -97,8 +89,6 @@ function Hero() {
         >
           {jobTitles[index]}
         </motion.p>
-
-        {/* Resume Button with Hover Animation */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -115,8 +105,6 @@ function Hero() {
           <span className="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all group-hover:w-full duration-300 z-0"></span>
         </motion.button>
       </motion.div>
-
-      {/* Scroll Down Indicator */}
       <motion.div
         className="absolute bottom-6 animate-bounce text-blue-400 text-2xl z-10"
         whileHover={{ scale: 1.1, rotate: 45 }}

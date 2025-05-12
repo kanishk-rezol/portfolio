@@ -2,10 +2,8 @@ import React, { useState, useCallback } from "react";
 
 export default function Contact() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [mouseProgress, setMouseProgress] = useState(0.5); // Start centered
-
-  const ICON_GAP = 26; // Updated spacing between icons
-
+  const [mouseProgress, setMouseProgress] = useState(0.5); 
+  const ICON_GAP = 26; 
   const icons = [
     {
       name: "Main",

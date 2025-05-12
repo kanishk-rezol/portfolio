@@ -65,7 +65,7 @@ const CatWalker = () => {
   }, [hasWalkedRight, hasWalkedLeft]);
 
   return (
-    <div ref={containerRef} className="relative h-[20vh] w-[68%] mx-auto">
+    <div ref={containerRef} className="relative h-[20vh] w-[88%] mx-auto">
       <img
         ref={catRef}
         src="/assets/cat.gif"
