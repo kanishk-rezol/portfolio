@@ -54,7 +54,7 @@ const AboutMeSection = () => {
 
   return (
     <div className="relative max-w-5xl mx-auto py-16 px-6 sm:px-8 bg-white rounded-3xl shadow-2xl" id="about-me-section">
-      {/* Animated Blobs */}
+
       <div className="absolute w-[18rem] h-[18rem] bg-purple-300 opacity-40 rounded-full blur-3xl top-[10%] left-[10%] animate-blob1" />
       <div className="absolute w-[15rem] h-[15rem] bg-pink-300 opacity-30 rounded-full blur-3xl bottom-[5%] right-[10%] animate-blob2" />
       <div className="absolute w-[12rem] h-[12rem] bg-blue-300 opacity-30 rounded-full blur-2xl bottom-[10%] left-[15%] animate-blob3" />
@@ -65,7 +65,6 @@ const AboutMeSection = () => {
         transition={{ duration: 0.6 }}
         className="relative text-left space-y-10"
       >
-        {/* About Me Title */}
         <motion.h2
           className="text-4xl font-extrabold text-blue-600 tracking-tight"
           whileHover={{ scale: 1.05, color: "#1F2937" }}
@@ -73,8 +72,6 @@ const AboutMeSection = () => {
         >
           About Me
         </motion.h2>
-
-        {/* About Me Paragraph */}
         <motion.p
           className="text-gray-700 text-lg sm:text-xl leading-relaxed max-w-3xl"
           initial={{ opacity: 0 }}
@@ -83,8 +80,6 @@ const AboutMeSection = () => {
         >
           I am a passionate software developer with a solid background in web and mobile development. I enjoy creating innovative, efficient, and user-friendly applications. With my strong problem-solving skills and data-driven mindset, I am always eager to learn new technologies and improve my skill set.
         </motion.p>
-
-        {/* Skills Section */}
         <motion.div
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-12"
           initial={{ opacity: 0 }}

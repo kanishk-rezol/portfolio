@@ -67,13 +67,11 @@ function Hero() {
     }));
     setFloatingGradients(blobs);
 
-    // Add scroll event listener
     const handleScroll = (e: WheelEvent) => {
       const currentScroll = window.scrollY;
       const heroSection = document.getElementById('home');
       const heroHeight = heroSection?.offsetHeight || 0;
       
-      // If we're at the top of the page and scrolling down
       if (currentScroll === 0 && e.deltaY > 0) {
         e.preventDefault();
         window.scrollTo({
@@ -108,7 +106,6 @@ function Hero() {
       ref={ref}
       className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-gradient-radial from-white via-blue-50 to-white"
     >
-      {/* ✅ Gradient Blobs */}
       {floatingGradients.map((item) => (
         <motion.div
           key={item.id}
@@ -130,7 +127,6 @@ function Hero() {
         />
       ))}
 
-      {/* 🔵 Circles (unchanged) */}
       {[...Array(6)].map((_, idx) => (
         <motion.div
           key={idx}
@@ -160,7 +156,6 @@ function Hero() {
         />
       ))}
 
-      {/* 👋 Hero Text */}
       <motion.div
         whileHover={{
           scale: 1.05,
@@ -212,7 +207,6 @@ function Hero() {
         </motion.button>
       </motion.div>
 
-      {/* ↓ Arrow */}
       <motion.div
         className="absolute bottom-6 animate-bounce text-blue-400 text-2xl z-10"
         whileHover={{ scale: 1.1, rotate: 45 }}
