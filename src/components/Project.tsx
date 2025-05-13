@@ -11,40 +11,40 @@ type ProjectCardProps = {
 
 const projectCards: ProjectCardProps[] = [
   {
-    title: "Project 1",
-    description: "Description of Project 1",
-    imageUrl: "./assets/project1.png",
-    githubLink: "#",
+    title: "Miles Morales 3d Webpage",
+    description: "A 3D interactive webpage of Miles Morales built using Spline and GSAP. Delivers smooth animations and immersive visuals.",
+    imageUrl: "/assets/project1.jpg",
+    githubLink: "https://github.com/kanishk-rezol/Spiderman",
   },
   {
-    title: "Project 2",
-    description: "Description of Project 2",
-    imageUrl: "./assets/project2.png",
-    githubLink: "#",
+    title: "Anime Watching App",
+    description: "A React-based app to stream anime using API data. Includes search, filtering, and a responsive design.",
+    imageUrl: "/assets/project2.jpg",
+    githubLink: "https://github.com/kanishk-rezol/animeapp",
   },
   {
-    title: "Project 3",
-    description: "Description of Project 3",
-    imageUrl: "./assets/project3.png",
-    githubLink: "#",
+    title: "Recipe Finder",
+    description: "Find recipes by ingredients using this React app with a recipe API. Clean UI with search and filter options.",
+    imageUrl: "/assets/project3.jpg",
+    githubLink: "https://github.com/kanishk-rezol/Recipe-finder",
   },
   {
-    title: "Project 4",
-    description: "Description of Project 4",
-    imageUrl: "./assets/project3.png",
-    githubLink: "#",
+    title: "Clone Webpage",
+    description: "A front-end clone of Instagram built using HTML, CSS, and JS. Mimics layout and responsiveness for practice.",
+    imageUrl: "/assets/project4.png",
+    githubLink: "https://github.com/kanishk-rezol/insta-clone",
   },
   {
-    title: "Project 5",
-    description: "Description of Project 5",
-    imageUrl: "./assets/project3.png",
-    githubLink: "#",
+    title: "ChatBot",
+    description: "A Python chatbot that replies to user messages using basic logic and keyword-based text processing.",
+    imageUrl: "/assets/project5.png",
+    githubLink: "https://github.com/kanishk-rezol/ChatBot",
   },
   {
-    title: "Project 6",
-    description: "Description of Project 6",
-    imageUrl: "./assets/project3.png",
-    githubLink: "#",
+    title: "Data Analysis on LGBTQ+ Survey",
+    description: "Analyzed survey data from LGBTQ+ individuals using Python and Excel to explore how they are perceived by others.",
+    imageUrl: "/assets/project6.png",
+    githubLink: "https://github.com/kanishk-rezol/LGBTQ-Review-analysis",
   },
 ];
 
@@ -103,7 +103,7 @@ const ProjectCard = memo(({ title, description, imageUrl, githubLink }: ProjectC
       }}
     >
       <div className="w-full h-full p-6 flex flex-col justify-between">
-        <h2 className="text-3xl font-semibold text-center mb-4 text-blue-500 transition-all duration-300">
+        <h2 className="text-3xl font-semibold text-center mb-4 text-black font-mono transition-all duration-300">
           {title}
         </h2>
 
@@ -182,6 +182,13 @@ export default function App() {
     <section id="projects" className="">
       
       <main className="min-h-screen py-16 px-6 w-full ">
+        {/* <div className="flex justify-center items-center shadow-none bg-transparent w-max">
+      <img 
+        src="/assets/grass.gif" 
+        alt="Awesome GIF" 
+        className="w-48 h-48 rounded-lg shadow-lg"
+      />
+    </div> */}
          <GradientDivWrapper>
         <div className="overflow-x-hidden mb-0 ">
           <motion.h1
