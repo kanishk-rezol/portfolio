@@ -22,10 +22,19 @@ export default function ScrollHero() {
   const [ready, setReady] = useState(false)
   const [videoPlayable, setVideoPlayable] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [mobilePlayback, setMobilePlayback] = useState(false)
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)')
     const update = () => setReducedMotion(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 768px), (pointer: coarse)')
+    const update = () => setMobilePlayback(query.matches)
     update()
     query.addEventListener('change', update)
     return () => query.removeEventListener('change', update)
@@ -38,8 +47,10 @@ export default function ScrollHero() {
       const requestedTime = Math.max(progressCurrent.current * (video.duration || 10), 0.01)
       video.play()
         .then(() => {
-          video.pause()
-          video.currentTime = requestedTime
+          if (!mobilePlayback) {
+            video.pause()
+            video.currentTime = requestedTime
+          }
           setVideoPlayable(true)
         })
         .catch(() => {
@@ -52,7 +63,22 @@ export default function ScrollHero() {
       window.removeEventListener('touchstart', unlockVideo)
       window.removeEventListener('pointerdown', unlockVideo)
     }
-  }, [videoPlayable])
+  }, [mobilePlayback, videoPlayable])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !mobilePlayback || reducedMotion) return
+    const play = () => video.play().catch(() => undefined)
+    play()
+    const section = sectionRef.current
+    if (!section) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) play()
+      else video.pause()
+    }, { threshold: 0.01 })
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [mobilePlayback, reducedMotion, videoPlayable])
 
   useEffect(() => {
     if (reducedMotion) {
@@ -71,7 +97,7 @@ export default function ScrollHero() {
       progressCurrent.current += (progressTarget.current - progressCurrent.current) * 0.12
       const next = progressCurrent.current
       const video = videoRef.current
-      if (video?.duration && Number.isFinite(video.duration) && !video.seeking && time - lastSeekAt.current > 32) {
+      if (!mobilePlayback && video?.duration && Number.isFinite(video.duration) && !video.seeking && time - lastSeekAt.current > 32) {
         const targetTime = next * Math.max(video.duration - 0.08, 0)
         if (Math.abs(video.currentTime - targetTime) > 0.035) {
           video.currentTime = targetTime
@@ -94,7 +120,7 @@ export default function ScrollHero() {
       window.removeEventListener('resize', updateTarget)
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
-  }, [reducedMotion])
+  }, [mobilePlayback, reducedMotion])
 
   const layerStyle = (start: number, peakStart: number, peakEnd: number, end: number) => {
     const opacity = reducedMotion && start === 0 ? 1 : layerOpacity(progress, start, peakStart, peakEnd, end)
@@ -117,13 +143,18 @@ export default function ScrollHero() {
           preload="auto"
           muted
           playsInline
+          autoPlay={mobilePlayback && !reducedMotion}
+          loop={mobilePlayback}
           aria-hidden="true"
           onLoadedMetadata={() => {
             setReady(true)
             if (videoRef.current) videoRef.current.currentTime = reducedMotion ? 2.5 : 0.01
           }}
           onLoadedData={() => setVideoPlayable(true)}
-          onCanPlay={() => setVideoPlayable(true)}
+          onCanPlay={() => {
+            setVideoPlayable(true)
+            if (mobilePlayback && !reducedMotion) videoRef.current?.play().catch(() => undefined)
+          }}
           onError={() => setReady(true)}
         />
         <div className="hero-scrim" />
