@@ -20,6 +20,7 @@ export default function ScrollHero() {
   const rafRef = useRef<number | null>(null)
   const [progress, setProgress] = useState(0)
   const [ready, setReady] = useState(false)
+  const [videoPlayable, setVideoPlayable] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
@@ -29,6 +30,29 @@ export default function ScrollHero() {
     query.addEventListener('change', update)
     return () => query.removeEventListener('change', update)
   }, [])
+
+  useEffect(() => {
+    const unlockVideo = () => {
+      const video = videoRef.current
+      if (!video || videoPlayable) return
+      const requestedTime = Math.max(progressCurrent.current * (video.duration || 10), 0.01)
+      video.play()
+        .then(() => {
+          video.pause()
+          video.currentTime = requestedTime
+          setVideoPlayable(true)
+        })
+        .catch(() => {
+          // The poster remains visible when a browser blocks programmatic playback.
+        })
+    }
+    window.addEventListener('touchstart', unlockVideo, { passive: true, once: true })
+    window.addEventListener('pointerdown', unlockVideo, { passive: true, once: true })
+    return () => {
+      window.removeEventListener('touchstart', unlockVideo)
+      window.removeEventListener('pointerdown', unlockVideo)
+    }
+  }, [videoPlayable])
 
   useEffect(() => {
     if (reducedMotion) {
@@ -84,9 +108,10 @@ export default function ScrollHero() {
   return (
     <section ref={sectionRef} id="home" className={`scroll-hero ${reducedMotion ? 'scroll-hero--reduced' : ''}`}>
       <div className="hero-sticky">
+        <div className="hero-poster" aria-hidden="true" />
         <video
           ref={videoRef}
-          className={`hero-video ${ready ? 'hero-video--ready' : ''}`}
+          className={`hero-video ${videoPlayable ? 'hero-video--ready' : ''}`}
           src="/assets/developer-hero-scrub.mp4"
           poster="/assets/developer-hero-poster.jpg"
           preload="auto"
@@ -97,6 +122,9 @@ export default function ScrollHero() {
             setReady(true)
             if (videoRef.current) videoRef.current.currentTime = reducedMotion ? 2.5 : 0.01
           }}
+          onLoadedData={() => setVideoPlayable(true)}
+          onCanPlay={() => setVideoPlayable(true)}
+          onError={() => setReady(true)}
         />
         <div className="hero-scrim" />
         <div className="hero-grid" aria-hidden="true" />
